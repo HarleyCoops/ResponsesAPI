@@ -9,6 +9,10 @@ from tqdm import tqdm
 from openai import OpenAI
 import argparse
 import json
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 class OpenAIFileSearch:
     def __init__(self, api_key=None):
@@ -17,7 +21,7 @@ class OpenAIFileSearch:
         """
         self.api_key = api_key or os.getenv('OPENAI_API_KEY')
         if not self.api_key:
-            raise ValueError("OpenAI API key is required. Set OPENAI_API_KEY environment variable or pass as parameter.")
+            raise ValueError("OpenAI API key is required. Set OPENAI_API_KEY environment variable, add it to .env file, or pass as parameter.")
         self.client = OpenAI(api_key=self.api_key)
         
     def create_vector_store(self, store_name):
@@ -256,11 +260,21 @@ def main():
     parser.add_argument("--store_id", help="Vector store ID")
     parser.add_argument("--pdf_dir", help="Directory containing PDF files")
     parser.add_argument("--query", help="Search query")
-    parser.add_argument("--model", default="gpt-4o-mini", help="OpenAI model to use")
-    parser.add_argument("--k", type=int, default=5, help="Number of results to retrieve")
+    parser.add_argument("--model", default=os.getenv('OPENAI_MODEL', 'gpt-4o-mini'), help="OpenAI model to use")
+    parser.add_argument("--k", type=int, default=int(os.getenv('MAX_RESULTS', '5')), help="Number of results to retrieve")
     parser.add_argument("--output", help="Output file path for results")
+    parser.add_argument("--env_file", default=".env", help="Path to .env file (default: .env)")
     
     args = parser.parse_args()
+    
+    # Load from specific .env file if provided
+    if args.env_file and args.env_file != ".env":
+        load_dotenv(args.env_file)
+    
+    # Use store_id from environment if not provided
+    if not args.store_id and os.getenv('VECTOR_STORE_ID'):
+        args.store_id = os.getenv('VECTOR_STORE_ID')
+        print(f"Using vector store ID from environment: {args.store_id}")
     
     search_api = OpenAIFileSearch(api_key=args.api_key)
     

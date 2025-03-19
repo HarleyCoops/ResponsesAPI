@@ -23,14 +23,24 @@ This project implements the OpenAI Responses API file search tool for semantic s
    ```
    pip install -r requirements.txt
    ```
-3. Set your OpenAI API key as an environment variable:
-   ```
-   # On Windows PowerShell
-   $env:OPENAI_API_KEY="your-api-key-here"
-   
-   # On Linux/macOS
-   export OPENAI_API_KEY="your-api-key-here"
-   ```
+3. Set up your environment variables:
+   - Copy `.env.example` to `.env`
+   - Add your OpenAI API key to the `.env` file:
+     ```
+     OPENAI_API_KEY=your-api-key-here
+     ```
+   - Optionally, configure other variables in the `.env` file
+
+## Environment Variables
+
+The following environment variables can be set in the `.env` file:
+
+- `OPENAI_API_KEY`: Your OpenAI API key (required)
+- `VECTOR_STORE_ID`: ID of an existing vector store (optional)
+- `OPENAI_MODEL`: Model to use for LLM searches (default: gpt-4o-mini)
+- `MAX_RESULTS`: Number of results to retrieve (default: 5)
+
+These variables can also be overridden via command-line arguments.
 
 ## Usage
 
@@ -77,6 +87,8 @@ python search_api_implementation.py --action evaluate --store_id "vs_123456789" 
 - `search_api_implementation.py`: Main implementation file
 - `requirements.txt`: Python dependencies
 - `README.md`: This documentation file
+- `.env.example`: Template for environment variables
+- `.env`: Your local environment variables (not committed to the repository)
 
 ## Example Workflow
 

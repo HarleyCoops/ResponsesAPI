@@ -6,6 +6,8 @@ echo Setting up environment...
 set PDF_DIR=C:\Users\admin\ResponsesAPI\SearchOnThis
 set OUTPUT_DIR=results
 
+echo Note: Make sure your .env file contains a valid OPENAI_API_KEY
+
 if not exist %OUTPUT_DIR% mkdir %OUTPUT_DIR%
 
 echo.
@@ -16,6 +18,10 @@ echo.
 echo Reading store ID from details file...
 for /f "tokens=*" %%a in ('powershell -Command "Get-Content %OUTPUT_DIR%\store_details.json | ConvertFrom-Json | Select-Object -ExpandProperty id"') do set STORE_ID=%%a
 echo Store ID: %STORE_ID%
+
+echo Saving store ID to .env file...
+powershell -Command "(Get-Content .env) -replace '#?\s*VECTOR_STORE_ID=.*', 'VECTOR_STORE_ID=%STORE_ID%' | Set-Content .env"
+echo Store ID saved to .env file
 
 echo.
 echo Step 2: Uploading PDFs to vector store...

@@ -5,6 +5,8 @@ Write-Host "`nSetting up environment..." -ForegroundColor Cyan
 $PDF_DIR = "C:\Users\admin\ResponsesAPI\SearchOnThis"
 $OUTPUT_DIR = "results"
 
+Write-Host "Note: Make sure your .env file contains a valid OPENAI_API_KEY" -ForegroundColor Yellow
+
 if (-not (Test-Path $OUTPUT_DIR)) {
     New-Item -Path $OUTPUT_DIR -ItemType Directory | Out-Null
 }
@@ -16,6 +18,12 @@ Write-Host "`nReading store ID from details file..." -ForegroundColor Cyan
 $storeDetails = Get-Content "$OUTPUT_DIR\store_details.json" | ConvertFrom-Json
 $STORE_ID = $storeDetails.id
 Write-Host "Store ID: $STORE_ID" -ForegroundColor Yellow
+
+# Save the store ID to .env file for future use
+$envContent = Get-Content ".env"
+$updatedContent = $envContent -replace "#?\s*VECTOR_STORE_ID=.*", "VECTOR_STORE_ID=$STORE_ID"
+$updatedContent | Set-Content ".env"
+Write-Host "Store ID saved to .env file" -ForegroundColor Green
 
 Write-Host "`nStep 2: Uploading PDFs to vector store..." -ForegroundColor Cyan
 python search_api_implementation.py --action upload --store_id "$STORE_ID" --pdf_dir "$PDF_DIR" --output "$OUTPUT_DIR\upload_stats.json"
