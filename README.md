@@ -226,6 +226,91 @@ sequenceDiagram
 - All PDF files in the specified directory will be processed
 - Evaluation metrics include Recall, Precision, MRR, and MAP
 
+## Future Development: Knowledge Graph Visualization
+
+Building on the current vector store visualization capabilities, a natural extension would be to develop a comprehensive knowledge graph visualization system. This would transform the current document-level embeddings into a rich, interconnected graph of entities, concepts, and relationships.
+
+### Conceptual Architecture
+
+```mermaid
+graph TD
+    A[Document Extraction] --> B[Entity/Concept Recognition]
+    B --> C[Relationship Extraction]
+    C --> D[Graph Construction]
+    D --> E[3D Graph Layout]
+    E --> F[Interactive Visualization]
+    
+    subgraph "Entity Recognition"
+        B1[spaCy NER] --> B
+        B2[OpenAI API] --> B
+        B3[Hybrid Approach] --> B
+    end
+    
+    subgraph "Relationship Extraction"
+        C1[Co-occurrence Analysis] --> C
+        C2[Semantic Similarity] --> C
+        C3[LLM-Based Extraction] --> C
+    end
+    
+    subgraph "Graph Visualization"
+        F1[Node Filtering] --> F
+        F2[Relationship Filtering] --> F
+        F3[Search & Exploration] --> F
+    end
+```
+
+### Implementation Components
+
+1. **Entity and Concept Extraction**
+   - Named Entity Recognition (NER) using spaCy
+   - Concept extraction using OpenAI API
+   - Hybrid approaches combining rule-based and ML techniques
+
+2. **Relationship Definition**
+   - Co-occurrence analysis (entities appearing in the same context)
+   - Semantic similarity between entity embeddings
+   - LLM-based relationship extraction using OpenAI API
+   - Knowledge base integration (e.g., Wikidata)
+
+3. **Graph Construction**
+   - NetworkX for graph data structure
+   - Nodes representing documents, entities, and concepts
+   - Edges representing relationships with descriptive labels
+   - Metadata enrichment for nodes and edges
+
+4. **Graph Layout**
+   - UMAP for dimensionality reduction of combined embeddings
+   - Force-directed layout algorithms (e.g., Fruchterman-Reingold)
+   - Hierarchical layouts for concept taxonomies
+
+5. **Interactive Visualization**
+   - 3D graph rendering with Plotly
+   - Node coloring by type/category
+   - Edge styling by relationship type
+   - Interactive selection and exploration
+
+6. **Enhanced Dash Interface**
+   - Filtering by node type and relationship type
+   - Search functionality for finding specific nodes
+   - Detailed node and relationship information panels
+   - Path finding between concepts
+
+### Benefits
+
+- **Deeper Insights**: Understand not just document similarity but the specific entities and concepts that connect them
+- **Contextual Exploration**: Navigate through related concepts and discover unexpected connections
+- **Improved Search**: Find documents based on contained entities and concepts, not just overall similarity
+- **Knowledge Discovery**: Identify patterns and relationships that might not be apparent from document-level analysis
+
+### Technical Considerations
+
+- **Scalability**: Graph visualization can become complex with large numbers of nodes and edges
+- **Performance**: Real-time interaction requires efficient graph algorithms and rendering
+- **Accuracy**: Entity and relationship extraction quality directly impacts the usefulness of the visualization
+- **User Experience**: Balancing complexity with usability for effective knowledge exploration
+
+This future development would transform the current vector store visualization from a document-centric view to a rich knowledge graph that reveals the underlying semantic structure of the content.
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
