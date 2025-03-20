@@ -1,6 +1,6 @@
-# OpenAI File Search Implementation
+# OpenAI File Search Implementation with Vector Store Visualization
 
-This project implements the OpenAI Responses API file search tool for semantic search on PDF documents. It's based on the sample code that demonstrates using vector stores to search and answer questions from PDF content.
+This project implements the OpenAI Responses API file search tool for semantic search on PDF documents, along with 3D visualization of vector store embeddings. It's based on the sample code that demonstrates using vector stores to search and answer questions from PDF content.
 
 ## Features
 
@@ -10,6 +10,9 @@ This project implements the OpenAI Responses API file search tool for semantic s
 - Integrate search results with LLM responses
 - Generate evaluation questions from PDFs
 - Evaluate retrieval performance with metrics
+- Visualize vector store embeddings in 3D space
+- Explore semantic relationships between documents
+- Cluster similar documents automatically
 
 ## Prerequisites
 
@@ -82,9 +85,98 @@ python search_api_implementation.py --action generate_questions --pdf_dir "path/
 python search_api_implementation.py --action evaluate --store_id "vs_123456789" --output questions.json --k 5 --model "gpt-4o-mini"
 ```
 
+### 7. Visualize Vector Store Embeddings
+
+## Technical Architecture
+
+```mermaid
+graph TD
+    A[OpenAI Vector Store] --> B[Data Retrieval Module]
+    B --> C[Embedding Processing]
+    C --> D[Dimensionality Reduction]
+    D --> E[Clustering Algorithm]
+    E --> F[Interactive Visualization]
+    F --> G[User Interface]
+    
+    H[PDF Documents] --> A
+    
+    subgraph "Backend Processing"
+        B
+        C
+        D
+        E
+    end
+    
+    subgraph "Frontend Visualization"
+        F
+        G
+    end
+```
+
+#### Using the Interactive Scripts
+
+For a user-friendly interface, run one of the interactive scripts:
+
+```
+# Windows Command Prompt
+run_visualization.bat
+
+# PowerShell
+.\run_visualization.ps1
+```
+
+#### Using the Command Line
+
+Create a vector store, upload PDFs, and visualize in one step:
+
+```
+python visualize_vector_store.py create-and-visualize --store_name "my_store" --pdf_dir "path/to/pdfs" --output "visualization.html"
+```
+
+Visualize an existing vector store:
+
+```
+python visualize_vector_store.py visualize --store_id "vs_your_vector_store_id" --output "visualization.html"
+```
+
+Run with interactive Dash web application:
+
+```
+python visualize_vector_store.py visualize --store_id "vs_your_vector_store_id" --run_dash
+```
+
+For more details on visualization features, see `VISUALIZATION_README.md`.
+
+## Implementation Workflow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Script
+    participant OpenAI
+    participant Visualization
+    
+    User->>Script: Run with vector store ID
+    Script->>OpenAI: Request embeddings
+    OpenAI-->>Script: Return embeddings data
+    Script->>Script: Process embeddings
+    Script->>Script: Reduce dimensions (UMAP)
+    Script->>Script: Perform clustering
+    Script->>Visualization: Generate interactive plot
+    Visualization-->>User: Display 3D visualization
+    User->>Visualization: Interact (zoom, rotate, select)
+    Visualization-->>User: Show document details
+```
+
 ## Project Structure
 
 - `search_api_implementation.py`: Main implementation file
+- `vector_store_visualizer.py`: Vector store visualization module
+- `visualize_vector_store.py`: Command-line interface for visualization
+- `run_visualization.bat`: Interactive batch script for Windows
+- `run_visualization.ps1`: Interactive PowerShell script for Windows
+- `example_visualization.py`: Example script demonstrating programmatic usage
+- `VISUALIZATION_README.md`: Detailed documentation for visualization features
 - `requirements.txt`: Python dependencies
 - `README.md`: This documentation file
 - `.env.example`: Template for environment variables
@@ -117,6 +209,16 @@ python search_api_implementation.py --action evaluate --store_id "vs_123456789" 
    python search_api_implementation.py --action llm_search --store_id "vs_67d06b9b9a9c8191bafd456cf2364ce3" --query "What is Deep Research?"
    ```
 
+6. Visualize the vector store embeddings:
+   ```
+   python visualize_vector_store.py visualize --store_id "vs_67d06b9b9a9c8191bafd456cf2364ce3" --output "visualization.html"
+   ```
+
+7. Run the interactive visualization dashboard:
+   ```
+   python visualize_vector_store.py visualize --store_id "vs_67d06b9b9a9c8191bafd456cf2364ce3" --run_dash
+   ```
+
 ## Notes
 
 - The API key is required for all operations
@@ -126,4 +228,4 @@ python search_api_implementation.py --action evaluate --store_id "vs_123456789" 
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.
