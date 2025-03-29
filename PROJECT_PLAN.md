@@ -22,7 +22,7 @@ The project consists of the following core components:
 
 - **Purpose**: Main class that encapsulates all functionality
 - **Key Methods**:
-  - `create_vector_store`: Creates a new vector store on OpenAI
+  - `create_vector_store`: Creates a new vector store on OpenAI 
   - `upload_single_pdf`: Uploads a single PDF to a vector store
   - `upload_pdf_files_to_vector_store`: Uploads multiple PDFs in parallel
   - `vector_search`: Performs direct vector search
